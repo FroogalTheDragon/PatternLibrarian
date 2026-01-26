@@ -15,11 +15,12 @@ export function fileType(fileName: string): string {
  */
 export async function downloadFile(
   url: string,
-  dest: string,
-): Promise<Deno.FsFile> {
+  fileName: string,
+): Promise<string> {
   const response = await fetch(url);
+  const filePath = `/tmp/${fileName}`; // Download file to /tmp directory for now
 
-  const file = await Deno.open(dest, {
+  const file = await Deno.open(filePath, {
     write: true,
     create: true,
   }).catch((err) => {
@@ -27,5 +28,5 @@ export async function downloadFile(
   });
   await response.body?.pipeTo(file.writable);
 
-  return file;
+  return filePath;
 }
