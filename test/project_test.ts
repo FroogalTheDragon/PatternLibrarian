@@ -9,7 +9,7 @@ const testProject = new Project(
   12345,
   "Test Project",
   {
-    hookSize: 3.25,
+    hookSizes: 3.25,
     difficulty: Difficulty.Easy,
     stitches: [CrochetStitch.BackPostDoubleCrochet, CrochetStitch.Bullion],
   },
