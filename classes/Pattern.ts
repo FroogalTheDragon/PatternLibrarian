@@ -7,23 +7,26 @@ import { print } from "../utils/print.ts";
  * This class represents either a crochet pattern or a knit pattern
  */
 export class Pattern {
-    id: number;
-    userId: number;
-    name: string;
-    craft: Crochet | Knit;
-    tags: Tags[];
-    patternFilePath: string;
+    id?: number;
+    userId?: number;
+    name?: string;
+    description?: string;
+    craft?: Crochet | Knit;
+    tags?: Tags[];
+    patternFilePath?: string;
     constructor(
-        id: number,
-        userId: number,
-        name: string,
-        craft: Crochet | Knit,
-        tags: Tags[],
-        patternFilePath: string
+        id?: number,
+        userId?: number,
+        name?: string,
+        description?: string,
+        craft?: Crochet | Knit,
+        tags?: Tags[],
+        patternFilePath?: string
     ) {
         this.id = id;
         this.userId = userId;
         this.name = name;
+        this.description = description;
         this.craft = craft;
         this.tags = tags;
         this.patternFilePath = patternFilePath;
