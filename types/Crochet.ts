@@ -1,10 +1,10 @@
-import { CrochetType } from "../enums/CrochetType.ts";
+import { CrochetTypes } from "../enums/CrochetType.ts";
 import { Difficulty } from "../enums/Difficulty.ts";
-import { CrochetStitch } from "../enums/Stitches.ts";
+import { CrochetStitches } from "../enums/Stitches.ts";
 
 export type Crochet = {
     hookSizes: number[],
-    stitches: CrochetStitch[],
+    stitches: CrochetStitches[],
     difficulty: Difficulty,
-    crochetType: CrochetType[]
+    crochetType: CrochetTypes[]
 }
