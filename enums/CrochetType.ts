@@ -1,4 +1,4 @@
-export enum CrochetType {
+export enum CrochetTypes {
     Amigurumi = "amigurumi",
     AranCrochet = "aran_crochet",
     BavarianCrochet = "bavarian_crochet",
