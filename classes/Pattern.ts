@@ -1,9 +1,7 @@
-import { connect } from "https://deno.land/x/redis@v0.40.0/redis.ts";
+import { connect } from "redis";
 import { Tags } from "../enums/Tags.ts";
 import { Crochet } from "../types/Crochet.ts";
 import { Knit } from "../types/Knit.ts";
-import { print } from "../utils/print.ts";
-import { hostname } from "node:os";
 
 /**
  * This class represents either a crochet pattern or a knit pattern
@@ -41,7 +39,7 @@ export class Pattern {
     }
 
     /**
-     * 
+     * Save this pattern to redis
      * @returns Promise<RedisReply>
      */
     async set() {
@@ -50,7 +48,7 @@ export class Pattern {
         port: 6379
       });
 
-      return await redis.sendCommand(`JSON.SET`, [`${this.userId}:${this.name}:${this.timestamp}`, "$", JSON.stringify(this)]);
+      return await redis.sendCommand(`JSON.SET`, [`${this.userId}:${this.name?.replaceAll(" ", "_")}:${this.timestamp}`, "$", JSON.stringify(this)]);
     }
 
     async delete() {}

@@ -165,7 +165,7 @@ export async function new_pattern(
       const patternTmpPath = await downloadFile(url, fileName);
 
       const patternFilePath = await Deno.realPath(`assets/pattern_files/pdf`);
-      const patternFile = `${patternFilePath}/${fileName}.pdf`;
+      const patternFile = `${patternFilePath}/${fileName.replaceAll(" ", "_")}.pdf`;
 
       await Deno.copyFile(
         patternTmpPath,
