@@ -2,7 +2,7 @@
  * Enum representing common crochet stitches.
  * Values are set to their standard pattern abbreviations.
  */
-export enum CrochetStitch {
+export enum CrochetStitches {
   // Basic Stitches
   Chain = "ch",
   SlipStitch = "slst",
