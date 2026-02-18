@@ -5,12 +5,13 @@ import { Tags } from "../enums/Tags.ts";
 import { Crochet } from "../types/Crochet.ts";
 import { Knit } from "../types/Knit.ts";
 import { Difficulty } from "../enums/Difficulty.ts";
-import { CrochetType } from "../enums/CrochetType.ts";
+import { CrochetTypes } from "../enums/CrochetType.ts";
 import { Pattern } from "../classes/Pattern.ts";
-import { keyboardFromStrings } from "../utils/keyboards.ts";
+import { keyboardFromArray } from "../utils/keyboards.ts";
 // import { CrochetHookSizes } from "../enums/Sizes.ts";
-import { CrochetStitch } from "../enums/Stitches.ts";
+import { CrochetStitches } from "../enums/Stitches.ts";
 import { downloadFile } from "../utils/misc.ts";
+import { HookSizes } from "../enums/Sizes.ts";
 
 export async function new_pattern(
   conversation: Conversation,
@@ -36,7 +37,7 @@ export async function new_pattern(
   await ctx.reply(
     "Please select the tags you would like to apply to this pattern.",
     {
-      reply_markup: keyboardFromStrings(Object.values(Tags)).text(
+      reply_markup: keyboardFromArray(Object.values(Tags)).text(
         "[COMPLETE SELECTION]",
       ),
     },
@@ -78,20 +79,19 @@ export async function new_pattern(
         difficulty: Difficulty.Beginner,
         crochetType: [],
       };
-      const hookSizes: string[] = Object.values(CrochetHookSizes);
+      const hookSizes: number[] = HookSizes;
       print("this is a crochet pattern");
       // Get Hooksize
       await ctx.reply("What is your hooksize?", {
-        reply_markup: keyboardFromStrings(hookSizes).text(
+        reply_markup: keyboardFromArray(hookSizes).text(
           "[COMPLETE SELECTION]",
         ),
       });
 
       while (true) {
         const hookSize = await conversation.form.text();
-
         if (
-          hookSizes.includes(hookSize) &&
+          hookSizes.includes(Number(hookSize)) &&
           !crochet.hookSizes.includes(Number(hookSize))
         ) {
           crochet.hookSizes.push(Number(hookSize));
@@ -109,7 +109,7 @@ export async function new_pattern(
       const difficultyCheckpoint = conversation.checkpoint();
       const difficultyLevels: string[] = Object.values(Difficulty);
       await ctx.reply("Select pattern diffuculty.", {
-        reply_markup: keyboardFromStrings(difficultyLevels),
+        reply_markup: keyboardFromArray(difficultyLevels),
       });
 
       const difficulty = await conversation.form.text();
@@ -124,7 +124,7 @@ export async function new_pattern(
       // Get stitches
       const stitchNames: string[] = Object.values(CrochetStitches);
       await ctx.reply("What stitches does this pattern use?", {
-        reply_markup: keyboardFromStrings(stitchNames).text(
+        reply_markup: keyboardFromArray(stitchNames).text(
           "[COMPLETE SELECTION]",
         ),
       });
@@ -147,7 +147,7 @@ export async function new_pattern(
       // Get Type of crochet
       const crochetTypes: string[] = Object.values(CrochetTypes);
       await ctx.reply("Select the type of crochet this pattern uses.", {
-        reply_markup: keyboardFromStrings(crochetTypes),
+        reply_markup: keyboardFromArray(crochetTypes),
       });
 
       const crochetType = await conversation.form.text();
@@ -173,13 +173,15 @@ export async function new_pattern(
         patternFile,
       );
 
-      pattern.addedTimestamp = await conversation.now();
-
-      const patternKey = `${pattern.userId}:${pattern.name}:${pattern.addedTimestamp}`
-
+      pattern.timestamp = await conversation.now();
       pattern.patternFilePath = patternFile;
-      const reply = await pattern.set(patternKey);
-      print(reply);
+      const reply = await pattern.set();
+      if (reply === "OK") {
+        await ctx.reply(`Pattern saved successfully!`);
+      } else {
+        await ctx.reply(`Failed to save pattern: ${reply}`);
+        throw new Error(`Failed to save pattern ${pattern.name}: error: ${reply}`);
+      }
       break;
     }
     case "knit": {
