@@ -50,7 +50,7 @@ export class Pattern {
         port: 6379
       });
 
-      return await redis.sendCommand(`JSON.SET`, [`${this.userId}:${this.timestamp}`, "$", JSON.stringify(this)]);
+      return await redis.sendCommand(`JSON.SET`, [`${this.userId}:${this.name}:${this.timestamp}`, "$", JSON.stringify(this)]);
     }
 
     async delete() {}
