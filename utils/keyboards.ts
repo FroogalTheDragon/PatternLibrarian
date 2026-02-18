@@ -1,7 +1,7 @@
 import { Keyboard } from "grammy";
 
 /**
- * Create a custom keyboard from an array of values
+ * Create a custom keyboard from an array of values string or number
  * @param arr The array of values to construct the keyboard from
  * @returns Keyboard
  */
