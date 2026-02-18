@@ -22,7 +22,7 @@ export async function new_pattern(
   const pattern = new Pattern();
   // Get pattern name from user
   await ctx.reply(`Please enter a name for this pattern.`);
-  pattern.name = name = await conversation.form.text();
+  pattern.name = await conversation.form.text();
 
   // Get pattern description
   await ctx.reply("Give a description for your pattern.");
@@ -33,7 +33,6 @@ export async function new_pattern(
     "Okay select the tags that describe your pattern.  When done click the [CLICK WHEN DONE] button",
   );
 
-  // print(`Tags: ${tagNames}`);
   await ctx.reply(
     "Please select the tags you would like to apply to this pattern.",
     {
